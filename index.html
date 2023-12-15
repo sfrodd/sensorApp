@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Data Visualization</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" type="" href="./myStyles/beautify.css">
+    <script type="text/javascript" defer>
+    
+    var mydata   
+       // $(document).ready(function () {
+            var socket = new WebSocket("ws://localhost:3000");
+
+            // Event handler for the WebSocket connection opening
+            socket.onopen = function () {
+                console.log("WebSocket connection opened.");
+            };
+
+            // Event handler for receiving data from the WebSocket server
+socket.onmessage = function (event) {
+           bothdata = JSON.parse(event.data);
+             let  mydata1 = JSON.parse(event.data);
+             let  mydata=mydata1.SoC
+               //myData=JSON.stringify( bothdata.myData1);
+               urdata=mydata1.Temperature;
+            //  console.log(urdata)
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChart1);
+        var i=-1
+        var j=-1
+        //console.log(mydata[0].value,mydata[1].value)
+        document.getElementById("flag1").style.color="green"
+        function drawChart() {
+        i++;    
+       
+        var data = google.visualization.arrayToDataTable([
+            ['Time', 'SoC'],
+            [mydata[i+0].value
+            ,mydata[i+1].value],
+            [mydata[i+2].value
+            ,mydata[i+3].value],
+            [mydata[i+4].value
+            ,mydata[i+5].value],
+            [mydata[i+6].value
+            ,mydata[i+7].value],
+            [mydata[i+8].value
+            ,mydata[i+9].value],
+            [mydata[i+10].value
+            ,mydata[i+11].value],
+            [mydata[i+12].value
+            ,mydata[i+13].value],
+            [mydata[i+14].value
+            ,mydata[i+15].value],
+            [mydata[i+16].value
+            ,mydata[i+17].value],
+            [mydata[i+18].value
+            ,mydata[i+19].value],
+            [mydata[i+20].value
+            ,mydata[i+21].value],
+            [mydata[i+22].value
+            ,mydata[i+23].value],
+            [mydata[i+24].value
+            ,mydata[i+25].value],
+        ]);
+  const CRITICAL_VAL=97.5               
+  if(mydata[i+1].value>CRITICAL_VAL ||mydata[i+3].value>CRITICAL_VAL|| 
+   mydata[i+5].value>CRITICAL_VAL || 
+   mydata[i+7].value>CRITICAL_VAL||mydata[i+9].value>CRITICAL_VAL || 
+   mydata[i+11].value>CRITICAL_VAL||mydata[j+13].value>CRITICAL_VAL||mydata[i+15].value>CRITICAL_VAL || 
+   mydata[i+17].value>CRITICAL_VAL||mydata[i+19].value>CRITICAL_VAL||mydata[i+21].value>CRITICAL_VAL||
+   mydata[i+23].value>CRITICAL_VAL || 
+   mydata[i+25].value>CRITICAL_VAL){
+     document.getElementById("flag1").style.color="red"
+     //document.getElementById("flag2").style.color="red"
+      document.getElementById("myaudio").play();
+    }   
+  else{ 
+      document.getElementById("flag1").style.color="greenyellow" 
+     // document.getElementById("flag2").style.color="greenyellow"
+      document.getElementById("myaudio").pause();
+  }           
+ const options = {
+  title: 'State of Charging - SoC V/s Time',
+  hAxis: {title: 'Time -- >',
+  max:12,
+  min:10,
+  textStyle:  
+     {color: 'green' },
+     viewWindow: {
+        min: 5,
+        max: 12,
+    },
+    ticks: [0, 1, 2, 3, 4,5,6,7,8,9,10] 
+  },
+  pointSize: 5,
+  series: {
+    pointShape: 'circle'
+},
+  vAxis: { title: 'State of Charging SoC',
+  minValue: 88,  // Set the minimum value for the x-axis
+  maxValue: 110,
+  textStyle:  
+     {color: 'red' }
+  },
+  ticks: [90,90.1,90.2,90.3,90.4,90.5,90.6,90.8] ,
+  chartArea: {
+         backgroundColor:'yellow'
+       },
+  legend: {
+    position: 'right',
+    textStyle: {
+        color: 'red'
+    },
+    pagingTextStyle: { color: '#666' },
+    scrollArrows: 'none'
+},
+}; //End of options
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+       
+        chart.draw(data, options);
+        chart.draw(data,options);
+} //End of drawChart
+
+        
+        function drawChart1() {
+        j++;    
+       
+       data1 = google.visualization.arrayToDataTable([
+            ['Time','Temperature'],
+            [urdata[j+0].value
+            ,urdata[j+1].value],
+            [urdata[j+2].value
+            ,urdata[j+3].value],
+            [urdata[j+4].value
+            ,urdata[j+5].value],
+            [urdata[j+6].value
+            ,urdata[j+7].value],
+            [urdata[j+8].value
+            ,urdata[j+9].value],
+            [urdata[j+10].value
+            ,urdata[j+11].value],
+            [urdata[j+12].value
+            ,urdata[j+13].value],
+            [urdata[j+14].value
+            ,urdata[j+15].value],
+            [urdata[j+16].value
+            ,urdata[j+17].value],
+            [urdata[j+18].value
+            ,urdata[j+19].value],
+            [urdata[j+20].value
+            ,urdata[j+21].value],
+            [urdata[j+22].value
+            ,urdata[j+23].value],
+            [urdata[j+24].value
+            ,urdata[j+25].value],
+         
+        ]); 
+     
+ const CRITICAL_VAL=38                
+  if(urdata[j+1].value>CRITICAL_VAL ||urdata[j+3].value>CRITICAL_VAL|| 
+   urdata[j+5].value>CRITICAL_VAL || 
+   urdata[j+7].value>CRITICAL_VAL||urdata[j+9].value>CRITICAL_VAL || 
+   urdata[j+11].value>CRITICAL_VAL||urdata[j+13].value>CRITICAL_VAL || 
+   urdata[j+15].value>CRITICAL_VAL||urdata[j+17].value>CRITICAL_VAL || 
+   urdata[j+19].value>CRITICAL_VAL||urdata[j+21].value>CRITICAL_VAL || 
+   urdata[j+23].value>CRITICAL_VAL||urdata[j+25].value>CRITICAL_VAL){
+     //document.getElementById("flag1").style.color="red"
+     document.getElementById("flag2").style.color="red"
+      document.getElementById("myaudio").play();
+    }   
+  else{ 
+      //document.getElementById("flag1").style.color="greenyellow" 
+      document.getElementById("flag2").style.color="greenyellow"
+      document.getElementById("myaudio").pause();
+  } 
+  
+const options1 = {
+  title: 'Temperature V/s Charging time',
+  hAxis: {title: 'Time -->',
+  
+  textStyle:  
+     {color: 'green' },
+     viewWindow: {
+        min: 5,
+        max: 12,
+    },
+    ticks: [0, 2, 4, 6, 8,10,12,14,16] 
+  },
+ 
+  pointSize: 5,
+  
+series: {
+    pointShape: 'circle'
+},
+  vAxis: { title: 'Temperature',
+  minValue: 23,  // Set the minimum value for the x-axis
+  maxValue: 37,
+  textStyle:  
+     {color: 'red' }
+  },
+  chartArea: {
+         backgroundColor:'yellow'
+       },
+  legend: {
+    position: 'right',
+    textStyle: {
+        color: 'red'
+    },
+    pagingTextStyle: { color: '#666' },
+    scrollArrows: 'none'
+},
+};
+
+       // var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        var chart1 = new google.visualization.LineChart(document.getElementById("chart2"));
+        //chart.draw(data, options1);
+        chart1.draw(data1,options1);
+    }
+}
+            
+        //})
+     
+    </script>
+    
+</head>
+<body>
+    <div class="box">
+        
+    <div style="display:flex;width: 100px;height: 100px;margin-top: 5px;   border-radius:55px;border-color: red;border-style: solid;border-width: 5px;background-color: red;">      
+        <img style="border-radius: 55px;object-fit: cover;"  src="./images/jForkTS.jpg" width="100px" height="100px"> 
+    </div>
+<audio id="myaudio">
+  <source src="../audios/bell.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+
+    <h3 style="color:red;font-family: Arial, Helvetica, sans-serif;">jFork Technology Services, Belgaum</h3>
+    <!--h3 style="color:crimson";font-family:Arial">Dash-Board</h3--> 
+    <img src="./images/dashBoard.png" width="350px" height="100px" style="margin:10px">   
+    <img src="./images/movEV.png" width="250px" height="100px">
+    </div>
+    <!--button id="startBtn">View Data</button-->
+    <div style="display:flex;flex-direction: column;">
+    <div style="display:flex;flex-direction: row;"> 
+    <i style="color:greenyellow;font-size:40px;margin-left:500px;margin-top:5px" id="flag1" class="bi bi-flag-fill"></i>
+    <i style="color:greenyellow; font-size:40px; margin-left:600px;margin-top:5px" id="flag2" class="bi bi-flag-fill"></i>
+    </div>
+    <div class="container">
+    <div id="chart_div"  style="width: 50%; height: 500px; margin:20px"></div>
+    <div id="chart2" style="width: 50%; height: 500px; margin:20px">
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!--script>
+        $(document).ready(function () {
+            var socket = new WebSocket("ws://localhost:3000");
+
+            // Event handler for the WebSocket connection opening
+            socket.onopen = function () {
+                console.log("WebSocket connection opened.");
+            };
+
+            // Event handler for receiving data from the WebSocket server
+            socket.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+
+                // Call a function to update the chart with the new data
+                updateChart(data);
+            };
+
+            // Event handler for errors
+            socket.onerror = function (error) {
+                console.error("WebSocket error:", error);
+            };
+
+            // Event handler for the WebSocket connection closing
+            socket.onclose = function () {
+                console.log("WebSocket connection closed.");
+            };
+
+            // Function to update the chart with new data
+            function updateChart(data) {
+                // Your logic to update the chart here
+                // This will depend on the structure of your sensor data and chart
+                console.log("Received data:", data);                
+}
+
+            // Button click event to start the data visualization
+            $("#startBtn").on("click", function () {
+                // Send a message to the server to start sending updates
+                socket.send("start");
+            });
+        });
+    </script-->
+</body>
+</html>

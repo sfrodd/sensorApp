@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        var socket = new WebSocket("wss://localhost:3000");
+
+        // Event handler for WebSocket connection opening
+        socket.onopen = function () {
+            console.log("WebSocket connection opened.");
+        };
+
+        // Event handler for WebSocket messages from the server
+        socket.onmessage = function (event) {
+            var data = JSON.parse(event.data);
+
+            // Call a function to update the chart with the new data
+            updateChart(data);
+        };
+
+        // Event handler for errors
+        socket.onerror = function (error) {
+            console.error("WebSocket error:", error);
+        };
+
+        // Event handler for the WebSocket connection closing
+        socket.onclose = function () {
+            console.log("WebSocket connection closed.");
+        };
+
+        // Function to update the chart with new data
+        function updateChart(data) {
+            // Your logic to update the chart here
+            // This will depend on the structure of your sensor data and chart
+            console.log("Received data:", data);
+        }
+    </script>
+</body>
+</html>

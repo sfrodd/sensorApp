@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "bootstrap-icons": "^1.11.2",
+    "fs": "^0.0.1-security",
+    "svg4everybody": "^2.1.9",
+    "xlsx": "^0.18.5"
+  }
+}
